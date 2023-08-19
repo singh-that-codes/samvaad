@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_field
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -20,7 +20,7 @@ import 'package:samvaad/enum/view_state.dart';
 import 'package:samvaad/models/message.dart';
 import 'package:samvaad/models/user.dart';
 import 'package:samvaad/provider/image_upload_provider.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+import 'package:samvaad/resources/auth_methods.dart' as auth;
 import 'package:samvaad/resources/chat_methods.dart';
 import 'package:samvaad/resources/storage_methods.dart';
 import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
@@ -33,7 +33,7 @@ import 'package:samvaad/utils/utilities.dart';
 import 'package:samvaad/utils/voice_call_utilities.dart';
 import 'package:samvaad/widgets/appbar.dart';
 import 'package:samvaad/widgets/custom_tile.dart';
-
+enum UserState { Online, Offline, Waiting }
 class ChatScreen extends StatefulWidget {
   final User receiver;
 

@@ -1,51 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:samvaad/enum/user_state.dart' as userStateEnum; // Add this import and alias
-import 'package:samvaad/models/user.dart';
-import 'package:samvaad/resources/auth_methods.dart';
-import 'package:samvaad/utils/utilities.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:samvaad/screens/login_screen.dart';
 
-class OnlineDotIndicator extends StatelessWidget {
-  final String uid;
-  final AuthMethods _authMethods = AuthMethods();
+class AuthMethods {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  OnlineDotIndicator({required this.uid});
+  // Other methods in AuthMethods...
 
-  Color getColor(int state) {
-    switch (Utils.numToState(state)) {
-      case userStateEnum.UserState.Offline: // Use the prefix here
-        return Colors.red;
-      case userStateEnum.UserState.Online: // Use the prefix here
-        return Colors.green;
-      default:
-        return Colors.orange;
+  Future<FirebaseUser?> getCurrentUser() async {
+    try {
+      FirebaseUser user = _auth.currentUser as FirebaseUser;
+      return user;
+    } catch (e) {
+      print("Error getting current user: $e");
+      return null;
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: StreamBuilder<DocumentSnapshot>(
-        stream: _authMethods.getUserStream(uid: uid),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data?.data == null) {
-            return Container(); // Return an empty container if no data
-          }
-
-          User _user = User.fromMap(snapshot.data?.data as Map<String, dynamic>);
-
-          return Container(
-            height: 10,
-            width: 10,
-            margin: EdgeInsets.only(right: 8, top: 8),
-            decoration: BoxDecoration(
-              color: getColor(_user.state),
-              shape: BoxShape.circle,
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Other methods in AuthMethods...
 }

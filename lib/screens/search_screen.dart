@@ -1,10 +1,10 @@
-import 'dart:async';
+//import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:samvaad/models/user.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
 import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:samvaad/screens/chatscreens/chat_screen.dart';
 import 'package:samvaad/screens/chatscreens/widgets/cached_image.dart';
@@ -26,16 +26,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    super.initState();
+  super.initState();
 
-    _authMethods.getCurrentUser().then((firebase_auth.User user) {
-      _authMethods.fetchAllUsers(user).then((List<User> list) {
-        setState(() {
-          userList = list;
-        });
-      } as FutureOr Function(List value));
+  _authMethods.getCurrentUser().then((firebase_auth.User user) {
+    _authMethods.fetchAllUsers(user).then((List<User> list) {
+      setState(() {
+        userList = list;
+      });
     });
-  }
+  });
+}
+
 
   searchAppBar(BuildContext context) {
     return NewGradientAppBar(
@@ -93,6 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
   buildSuggestions(String query) {
     final List<User> suggestionList = query.isEmpty
         ? []
+        // ignore: unnecessary_null_comparison
         : userList != null
             ? userList.where((User user) {
                 String _getUsername = user.username.toLowerCase();
@@ -112,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
             uid: suggestionList[index].uid,
             profilePhoto: suggestionList[index].profilePhoto,
             name: suggestionList[index].name,
-            username: suggestionList[index].username, email: '', status: '', state: 0);
+            username: suggestionList[index].username, email: '', status: '', state: 0, password: '');
 
         
     return CustomTile(

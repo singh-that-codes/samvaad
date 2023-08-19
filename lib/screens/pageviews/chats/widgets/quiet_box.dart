@@ -7,8 +7,8 @@ class QuietBox extends StatelessWidget {
   final String subtitle;
 
   QuietBox({
-    @required this.heading,
-    @required this.subtitle,
+    required this.heading,
+    required this.subtitle,
   });
 
   @override
@@ -42,16 +42,21 @@ class QuietBox extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25),
-              FlatButton(
-                color: UniversalVariables.lightBlueColor,
-                child: Text("START SEARCHING"),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SearchScreen(),
-                  ),
-                ),
-              ),
+              TextButton(
+  style: TextButton.styleFrom(
+    backgroundColor: UniversalVariables.lightBlueColor,
+  ),
+  child: Text("START SEARCHING"),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchScreen(),
+      ),
+    );
+  },
+)
+
             ],
           ),
         ),

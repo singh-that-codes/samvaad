@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:samvaad/models/message.dart';
 import 'package:samvaad/models/user.dart';
 import 'package:samvaad/provider/image_upload_provider.dart';
-import 'package:samvaad/resources/chat_methods.dart';
+//import 'package:samvaad/resources/chat_methods.dart';
 
 class StorageMethods {
   final Reference _storageReference =
@@ -20,6 +20,8 @@ class StorageMethods {
     state: 0,
     profilePhoto: '',
   );
+  
+  String? get customMessage => null;
 
   Future<String?> uploadImageToStorage(File imageFile) async {
     try {
@@ -58,7 +60,7 @@ class StorageMethods {
       chatMethods.setImageMsg(
         customMessage: 'Image Message', // Provide your custom message here
         url: url,
-        receiverId: eceiverId,
+        receiverId: receiverId,
         senderId: senderId,
         type1: type1,
         name: name,

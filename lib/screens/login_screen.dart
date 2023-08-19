@@ -1,12 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:samvaad/main.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
+import 'package:samvaad/screens/home_screen.dart';
 import 'package:samvaad/utils/utilities.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:samvaad/utils/universal_variables.dart';
-import 'home_screen.dart';
-import 'package:samvaad/constants/strings.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -47,7 +42,7 @@ class LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 115),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.black54,
+                backgroundColor: Colors.black54,
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -81,9 +76,13 @@ class LoginScreenState extends State<LoginScreen> {
       isLoginPressed = true;
     });
 
-    FirebaseUser user = (await _authMethods.signIn()) as FirebaseUser;
+    // Call the signIn method from AuthMethods
+    bool loginSuccessful = await _authMethods.signIn();
 
-    if (user != null) {
+    if (loginSuccessful) {
+      // Replace with actual FirebaseUser instance
+      FirebaseUser user = FirebaseUser();
+
       authenticateUser(user);
     }
     setState(() {
@@ -92,13 +91,13 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void authenticateUser(FirebaseUser user) {
-    _authMethods.authenticateUser(user as User).then((isNewUser) {
+    _authMethods.authenticateUser(user).then((isNewUser) {
       setState(() {
         isLoginPressed = false;
       });
 
       if (isNewUser) {
-        _authMethods.addDataToDb(user as User).then((value) {
+        _authMethods.addDataToDb(user).then((value) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
             return HomeScreen();
@@ -115,4 +114,5 @@ class LoginScreenState extends State<LoginScreen> {
 }
 
 class FirebaseUser {
+  // You can define properties and methods for your FirebaseUser class here
 }

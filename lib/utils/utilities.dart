@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +8,9 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+//import 'package:samvaad/utils/utilities.dart';
 import 'package:samvaad/models/user.dart';
+import 'package:samvaad/screens/login_screen.dart';
 
 enum UserState { Online, Offline, Waiting } // Move the enum here
 
@@ -129,4 +131,18 @@ class AuthMethods {
   }
 
   getUserDetails() {}
+
+  authenticateUser(FirebaseUser user) {}
+
+  addDataToDb(FirebaseUser user) {}
+
+  signIn() {}
+
+  getCurrentUser() {}
+
+  fetchAllUsers(User user) {}
+
+  void setUserState({required String userId, required UserState userState}) {}
+
+  signOut() {}
 }

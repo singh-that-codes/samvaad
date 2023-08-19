@@ -5,7 +5,7 @@ import 'package:samvaad/models/message.dart';
 import 'package:samvaad/models/user.dart';
 import 'package:samvaad/provider/user_provider.dart';
 import 'package:samvaad/resources/auth_methods.dart';
-import 'package:samvaad/resources/chat_methods.dart';
+//import 'package:samvaad/resources/chat_methods.dart';
 import 'package:samvaad/screens/chatscreens/chat_screen.dart';
 import 'package:samvaad/screens/chatscreens/widgets/cached_image.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/last_message_container.dart';
@@ -66,7 +66,7 @@ class ViewLayout extends StatelessWidget {
             ),
           )),
       title: Text(
-        contact.name ?? "..",
+        contact.name,
         style: TextStyle(color: Colors.black, fontFamily: "Arial", fontSize: 19),
       ),
       subtitle: LastMessageContainer(

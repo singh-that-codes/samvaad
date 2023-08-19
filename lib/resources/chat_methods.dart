@@ -57,9 +57,11 @@ class Message {
       name: name,
       timestamp: timestamp,
       messageType: messageType,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl, type: '',
     );
   }
 
   toMap() {}
+
+  static Message fromMap(data) {}
 }

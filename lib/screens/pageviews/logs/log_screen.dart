@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
-import 'package:samvaad/screens/pageviews/logs/widgets/floating_column.dart';
-import 'package:samvaad/utils/universal_variables.dart';
+//import 'package:samvaad/screens/pageviews/logs/widgets/floating_column.dart';
+//import 'package:samvaad/utils/universal_variables.dart';
 import 'package:samvaad/widgets/skype_appbar.dart';
 
 import 'widgets/log_list_container.dart';

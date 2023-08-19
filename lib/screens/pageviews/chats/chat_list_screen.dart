@@ -8,8 +8,8 @@ import 'package:samvaad/screens/pageviews/chats/widgets/contact_view.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/quiet_box.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/user_circle.dart';
 import 'package:samvaad/widgets/skype_appbar.dart';
-import 'package:samvaad/resources/chat_methods.dart';
-import 'widgets/new_chat_button.dart';
+//import 'package:samvaad/resources/chat_methods.dart';
+//import 'widgets/new_chat_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Add this import
 
 class ChatListScreen extends StatelessWidget {
@@ -70,7 +70,7 @@ class ChatListContainer extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final contacts = snapshot.data!.docs.map((doc) {
-              return Contact.fromMap(doc.data() as Map<String, dynamic>);
+              return Contact.fromMap(doc.data());
             }).toList();
 
             if (contacts.isEmpty) {

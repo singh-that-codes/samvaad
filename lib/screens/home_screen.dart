@@ -1,15 +1,17 @@
+// ignore_for_file: unnecessary_null_comparison, unused_local_variable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:samvaad/enum/user_state.dart';
+//import 'package:samvaad/enum/user_state.dart';
 import 'package:samvaad/provider/user_provider.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
 import 'package:samvaad/resources/local_db/repository/log_repository.dart';
 import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:samvaad/screens/pageviews/chats/chat_list_screen.dart';
 import 'package:samvaad/screens/pageviews/logs/log_screen.dart';
-import 'package:samvaad/utils/universal_variables.dart';
+//import 'package:samvaad/utils/universal_variables.dart';
 import 'package:samvaad/utils/utilities.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -85,6 +87,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ? _authMethods.setUserState(
                 userId: currentUserId, userState: UserState.Offline)
             : print("detached state");
+        break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
         break;
     }
   }

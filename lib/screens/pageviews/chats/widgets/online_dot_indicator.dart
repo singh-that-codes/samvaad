@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:samvaad/enum/user_state.dart';
+//import 'package:samvaad/enum/user_state.dart';
 import 'package:samvaad/models/user.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
 import 'package:samvaad/utils/utilities.dart';
 
 class OnlineDotIndicator extends StatelessWidget {

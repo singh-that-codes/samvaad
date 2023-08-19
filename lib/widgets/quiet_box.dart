@@ -36,7 +36,7 @@ class QuiteBox extends StatelessWidget {
               SizedBox(height: 25),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: UniversalVariables.lightBlueColor,
+                  backgroundColor: UniversalVariables.lightBlueColor,
                 ),
                 onPressed: () => Navigator.push(
                   context,

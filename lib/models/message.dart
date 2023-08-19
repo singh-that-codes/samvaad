@@ -96,7 +96,7 @@ class ChatMethods {
     String receiverId,
     String senderId,
     String type1,
-    String name,
+    String name, 
   ) async {
     Message message = Message.imageMessage(
       message: customMessage,
