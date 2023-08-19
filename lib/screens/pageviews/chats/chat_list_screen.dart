@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samvaad/models/contact.dart';
+import 'package:samvaad/models/message.dart';
 import 'package:samvaad/provider/user_provider.dart';
 import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/contact_view.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/quiet_box.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/user_circle.dart';
-import 'package:samvaad/utils/universal_variables.dart';
 import 'package:samvaad/widgets/skype_appbar.dart';
 import 'package:samvaad/resources/chat_methods.dart';
 import 'widgets/new_chat_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Add this import
 
 class ChatListScreen extends StatelessWidget {
   @override
@@ -36,7 +37,7 @@ class ChatListScreen extends StatelessWidget {
               ),
               onPressed: () {},
             ),
-          ], key: Key,
+          ], key: Key(''),
         ),
         body: ChatListContainer(),
         floatingActionButton: FloatingActionButton(
@@ -62,15 +63,17 @@ class ChatListContainer extends StatelessWidget {
     final userProvider = context.watch<UserProvider>();
 
     return Container(
-      child: StreamBuilder<List<Contact>>(
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>( // Change the stream type
         stream: _chatMethods.fetchContacts(
           userId: userProvider.getUser.uid,
         ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final contacts = snapshot.data;
+            final contacts = snapshot.data!.docs.map((doc) {
+              return Contact.fromMap(doc.data() as Map<String, dynamic>);
+            }).toList();
 
-            if (contacts!.isEmpty) {
+            if (contacts.isEmpty) {
               return QuietBox(
                 heading: "",
                 subtitle:

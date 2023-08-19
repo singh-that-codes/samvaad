@@ -5,7 +5,7 @@ import 'package:samvaad/models/log.dart';
 
 import 'package:samvaad/resources/call_methods.dart';
 import 'package:samvaad/resources/local_db/repository/log_repository.dart';
-import 'package:samvaad/screens/callscreens/call_screen.dart';
+//import 'package:samvaad/screens/callscreens/call_screen.dart';
 import 'package:samvaad/screens/callscreens/reciever_voice_call_screen.dart';
 import 'package:samvaad/screens/chatscreens/widgets/cached_image.dart';
 import 'package:samvaad/utils/permissions.dart';

@@ -3,11 +3,12 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:samvaad/provider/image_upload_provider.dart';
 import 'package:samvaad/provider/user_provider.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
 import 'package:samvaad/screens/home_screen.dart';
 import 'package:samvaad/screens/login_screen.dart';
 import 'package:samvaad/screens/search_screen.dart';
 import 'package:samvaad/models/user.dart';
+import 'package:samvaad/utils/utilities.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,6 @@
 import 'package:samvaad/models/log.dart';
 import 'package:samvaad/resources/local_db/db/hive_methods.dart';
-import 'package:meta/meta.dart';
+//import 'package:meta/meta.dart';
 import 'package:samvaad/resources/local_db/db/sqlite_methods.dart';
 
 class LogRepository {

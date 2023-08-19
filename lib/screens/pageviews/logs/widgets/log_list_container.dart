@@ -72,7 +72,7 @@ class _LogListContainerState extends State<LogListContainer> {
                   leading: CachedImage(
                     hasDialled ? _log.receiverPic : _log.callerPic,
                     isRound: true,
-                    radius: 45,
+                    radius: 45, height: 45,width: 45,
                   ),
                   mini: false,
                   trailing: TextButton(

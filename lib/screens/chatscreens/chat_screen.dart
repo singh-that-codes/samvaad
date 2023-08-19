@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable
-
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -60,7 +59,6 @@ class _ChatScreenState extends State<ChatScreen> {
   bool showEmojiPicker = false;
 
   ReceivePort _port = ReceivePort();
-  late PermissionStatus _storagePermissionStatus;
 
   @override
   void initState() {
@@ -77,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
           email: '',
           username: '',
           status: '',
-          state: 0,
+          state: 0, password: '',
         );
       });
     });
@@ -85,7 +83,6 @@ class _ChatScreenState extends State<ChatScreen> {
 Future<void> permi() async {
   var storagePermissionStatus = await Permission.storage.request();
   setState(() {
-    _storagePermissionStatus = storagePermissionStatus;
   });
 }
 
@@ -131,57 +128,67 @@ Future<void> permi() async {
   }*/
 
   @override
- Widget build(BuildContext context) {
-    _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
-    var getViewState = _imageUploadProvider.getViewState;
+Widget build(BuildContext context) {
+  var _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
+  var getViewState = _imageUploadProvider.getViewState;
 
-    return WillPopScope(
-      onWillPop: () async {
-        print('backk');
-        await FirebaseFirestore.instance
-            .collection(MESSAGES_COLLECTION)
-            .doc(_currentUserId)
-            .collection(widget.receiver.uid)
-            .get()
-            .then((snapshot) {
-          for (QueryDocumentSnapshot doc in snapshot.docs) {
-            doc.reference.delete();
-          }
-        });
-        Navigator.pop(context);
-        return true;
-      },
-      child: PickupLayout(
-        scaffold: Scaffold(
-          backgroundColor: UniversalVariables.blackColor,
-          appBar: customAppBar(context), // Define customAppBar function
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/bg_chat.png'),
-                fit: BoxFit.cover,
+  return WillPopScope(
+    onWillPop: () async {
+      print('backk');
+      await FirebaseFirestore.instance
+          .collection(MESSAGES_COLLECTION)
+          .doc(_currentUserId as String?)
+          .collection(widget.receiver.uid)
+          .get()
+          .then((snapshot) {
+        for (QueryDocumentSnapshot doc in snapshot.docs) {
+          doc.reference.delete();
+        }
+      });
+      Navigator.pop(context);
+      return true;
+    },
+    child: PickupLayout(
+      scaffold: Scaffold(
+        backgroundColor: UniversalVariables.blackColor,
+        appBar: customAppBar(context),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/bg_chat.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: <Widget>[
+              Flexible(
+                child: messageList(),
               ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Flexible(
-                  child: messageList(), // Define messageList function
+              if (getViewState == ViewState.LOADING)
+                Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(right: 15),
+                  child: CircularProgressIndicator(),
                 ),
-                if (getViewState == ViewState.LOADING)
-                  Container(
-                    alignment: Alignment.centerRight,
-                    margin: EdgeInsets.only(right: 15),
-                    child: CircularProgressIndicator(),
-                  ),
-                chatControls(), // Define chatControls function
-              ],
-            ),
+              chatControls(),
+            ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+
+customAppBar(BuildContext context) {
+}
+
+chatControls() {
+}
+
+class _currentUserId {
+}
+
+
 
   
   class _imageUploadProvider {
@@ -451,7 +458,7 @@ Future<void> permi() async {
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: Row(
                     children: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: Icon(
                           Icons.close,
                         ),
@@ -518,23 +525,27 @@ Future<void> permi() async {
     }
 
     sendMessage() {
+      var textFieldController;
       var text = textFieldController.text;
 
+      var sender;
       Message _message = Message(
         receiverId: widget.receiver.uid,
         senderId: sender.uid,
         message: text,
         timestamp: Timestamp.now(),
-        type: 'text',
+        type: 'text', type1: '', photoUrl: '', name: '', messageType: '', imageUrl: '',
       );
 
-      setState(() {
-        isWriting = false;
-      });
+      
 
       textFieldController.text = "";
 
+      var _chatMethods;
       _chatMethods.addMessageToDb(_message);
+    }
+    
+    void setState(Null Function() param0) {
     }
 
     return Container(
@@ -595,11 +606,11 @@ Future<void> permi() async {
                     if (!showEmojiPicker) {
                       // keyboard is visible
                       hideKeyboard();
-                      showEmojiContainer();
+                      //showEmojiContainer();
                     } else {
                       //keyboard is hidden
                       showKeyboard();
-                      hideEmojiContainer();
+                      //hideEmojiContainer();
                     }
                   },
                   icon: Icon(
@@ -738,23 +749,18 @@ Future<void> permi() async {
       ], key: null,
     );
   }
-  
-  PermissionHandler() {}
-}
 
-class PermissionGroup {
-  static var storage;
-}
 
-class Firestore {
-  static var instance;
-}
+  @override
+   import 'package:flutter/material.dart';
+import 'package:samvaad/utils/universal_variables.dart';
+import 'package:samvaad/widgets/custom_tile.dart'; // Import the required library for CustomTile
 
 class ModalTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
-  final Function onTap;
+  final Function onTap; // Pass the onTap function as a parameter
 
   const ModalTile({
     required this.title,
@@ -762,16 +768,15 @@ class ModalTile extends StatelessWidget {
     required this.icon,
     required this.onTap,
   });
-  
-  IconData? get trailing => null;
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
+    IconData? trailing; // Initialize trailing icon data type
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: CustomTile(
         mini: false,
-        onTap: onTap(),
+        onTap: onTap, // Pass the onTap function directly
         leading: Container(
           margin: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
@@ -800,14 +805,24 @@ class ModalTile extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        trailing: Icon( // Added trailing icon
-          trailing,
+        trailing: Icon(
+          trailing, // Use trailing directly without Icon widget
           color: UniversalVariables.greyColor,
         ),
         onLongPress: () {
           // Define your onLongPress functionality here
-        }, icon: Icon(trailing, color: UniversalVariables.greyColor), 
+        },
       ),
     );
   }
 }
+
+// Define the onTap function outside the Widget class
+void onTap() {
+  // Your onTap functionality here
+}
+
+// Define the PermissionHandler function outside the Widget class (if needed)
+void PermissionHandler() {
+  // Your PermissionHandler functionality here
+}};),}

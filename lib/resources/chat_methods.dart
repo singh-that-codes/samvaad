@@ -20,7 +20,7 @@ class Message {
     required this.name,
     required this.timestamp,
     required this.messageType,
-    required this.imageUrl,
+    required this.imageUrl, required String type,
   });
 
   Map<String, dynamic> toImageMap() {

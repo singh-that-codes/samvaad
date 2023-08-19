@@ -1,4 +1,6 @@
-import 'dart:io';
+//import 'dart:io';
+
+// ignore_for_file: unnecessary_null_comparison, override_on_non_overriding_member
 
 import 'package:path_provider/path_provider.dart';
 import 'package:samvaad/models/log.dart';
@@ -7,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class SqliteMethods implements LogInterface {
-  Database _db;
+  late Database _db;
 
   String databaseName = "";
   String tableName = "Call_Logs";
@@ -31,7 +33,7 @@ class SqliteMethods implements LogInterface {
   }
 
   @override
-  void openDb(String dbName) {
+  void openDb(dbName) {
     databaseName = dbName;
   }
 
@@ -64,7 +66,7 @@ class SqliteMethods implements LogInterface {
   Future<void> addLogs(Log log) async {
     final dbClient = await db;
     print("The log has been added to the SQLite database");
-    await dbClient.insert(tableName, log.toMap());
+    await dbClient.insert(tableName, Log.toMap(log));
   }
 
   @override
@@ -73,7 +75,7 @@ class SqliteMethods implements LogInterface {
 
     await dbClient.update(
       tableName,
-      log.toMap(),
+      Log.toMap(log),
       where: '$id = ?',
       whereArgs: [log.logId],
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samvaad/models/contact.dart';
+import 'package:samvaad/models/message.dart';
 import 'package:samvaad/models/user.dart';
 import 'package:samvaad/provider/user_provider.dart';
 import 'package:samvaad/resources/auth_methods.dart';
@@ -9,6 +10,7 @@ import 'package:samvaad/screens/chatscreens/chat_screen.dart';
 import 'package:samvaad/screens/chatscreens/widgets/cached_image.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/last_message_container.dart';
 import 'package:samvaad/screens/pageviews/chats/widgets/online_dot_indicator.dart';
+import 'package:samvaad/utils/utilities.dart';
 import 'package:samvaad/widgets/custom_tile.dart';
 
 class ContactView extends StatelessWidget {

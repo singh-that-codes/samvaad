@@ -10,6 +10,7 @@ import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:samvaad/screens/pageviews/chats/chat_list_screen.dart';
 import 'package:samvaad/screens/pageviews/logs/log_screen.dart';
 import 'package:samvaad/utils/universal_variables.dart';
+import 'package:samvaad/utils/utilities.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:samvaad/main.dart';
 import 'package:samvaad/resources/auth_methods.dart';
+import 'package:samvaad/utils/utilities.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:samvaad/utils/universal_variables.dart';
 import 'home_screen.dart';

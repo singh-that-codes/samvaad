@@ -1,19 +1,15 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/widgets.dart';
 import 'package:samvaad/models/message.dart';
 import 'package:samvaad/models/user.dart';
 import 'package:samvaad/provider/image_upload_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:samvaad/resources/chat_methods.dart';
 
 class StorageMethods {
-  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final Reference _storageReference =
+      FirebaseStorage.instance.ref(); // Initialize _storageReference
 
-  late Reference _storageReference; // Change this to Reference
-
-  // user class
+  // User class instance
   User user = User(
     uid: '',
     email: '',
@@ -27,13 +23,13 @@ class StorageMethods {
 
   Future<String?> uploadImageToStorage(File imageFile) async {
     try {
-      _storageReference = FirebaseStorage.instance
-          .ref()
-          .child('${DateTime.now().millisecondsSinceEpoch}');
-      UploadTask storageUploadTask = _storageReference.putFile(imageFile); // Change this to UploadTask
-      var url = await (await storageUploadTask).ref.getDownloadURL(); // Change this line
+      final reference = _storageReference.child('${DateTime.now().millisecondsSinceEpoch}');
+      final uploadTask = reference.putFile(imageFile);
+      final snapshot = await uploadTask;
+      final url = await snapshot.ref.getDownloadURL();
       return url;
     } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -48,23 +44,27 @@ class StorageMethods {
   }) async {
     final ChatMethods chatMethods = ChatMethods();
 
-    // Set some loading value to db and show it to the user
+    // Set loading state
     imageUploadProvider.setToLoading();
 
-    // Get URL from the image bucket
+    // Upload image and get URL
     String? url = await uploadImageToStorage(image);
 
-    // Hide loading
+    // Set idle state
     imageUploadProvider.setToIdle();
 
-    // Provide the missing argument 'message'
-    chatMethods.setImageMsg(
-      customMessage: 'Image Message', // Provide your custom message here
-      url: url,
-      receiverId: receiverId,
-      senderId: senderId,
-      type1: type1,
-      name: name,
-    );
+    if (url != null) {
+      // Call the method to send image message
+      chatMethods.setImageMsg(
+        customMessage: 'Image Message', // Provide your custom message here
+        url: url,
+        receiverId: eceiverId,
+        senderId: senderId,
+        type1: type1,
+        name: name,
+      );
+    } else {
+      print('Image upload failed');
+    }
   }
 }

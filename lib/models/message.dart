@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 import 'package:samvaad/constants/strings.dart';
 import 'package:samvaad/models/contact.dart';
-import 'package:samvaad/models/message.dart';
-import 'package:meta/meta.dart';
+//import 'package:samvaad/models/message.dart';
+//import 'package:meta/meta.dart';
 import 'package:samvaad/resources/chat_methods.dart';
 
 class ChatMethods {

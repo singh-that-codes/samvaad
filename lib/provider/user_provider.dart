@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:samvaad/models/user.dart';
-import 'package:samvaad/resources/auth_methods.dart';
+//import 'package:samvaad/resources/auth_methods.dart';
+import 'package:samvaad/utils/utilities.dart';
 
 class UserProvider with ChangeNotifier {
   late User _user;

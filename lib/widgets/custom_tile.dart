@@ -54,13 +54,13 @@ class CustomTile extends StatelessWidget {
                         SizedBox(height: 5),
                         Row(
                           children: <Widget>[
-                            icon ?? Container(),
+                            icon,
                             subtitle,
                           ],
                         )
                       ],
                     ),
-                    trailing ?? Container(),
+                    trailing,
                   ],
                 ),
               ),

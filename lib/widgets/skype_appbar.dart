@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:samvaad/screens/pageviews/chats/widgets/user_circle.dart';
-import 'package:samvaad/widgets/appbar.dart';
+//import 'package:samvaad/screens/pageviews/chats/widgets/user_circle.dart';
+//import 'package:samvaad/widgets/appbar.dart';
 
 class SkypeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final title;

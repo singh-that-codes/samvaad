@@ -9,6 +9,7 @@ import 'package:samvaad/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:samvaad/screens/chatscreens/chat_screen.dart';
 import 'package:samvaad/screens/chatscreens/widgets/cached_image.dart';
 import 'package:samvaad/utils/universal_variables.dart';
+import 'package:samvaad/utils/utilities.dart';
 import 'package:samvaad/widgets/custom_tile.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -129,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
       leading: CachedImage(
         searchedUser.profilePhoto,
         radius: 25,
-        isRound: true,
+        isRound: true, height: 30,width: 30,
       ),
       title: Text(
         searchedUser.username,

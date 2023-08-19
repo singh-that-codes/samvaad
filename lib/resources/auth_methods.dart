@@ -1,149 +1,51 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:samvaad/constants/strings.dart';
-import 'package:samvaad/enum/user_state.dart';
-import 'package:samvaad/main.dart';
-import 'package:samvaad/models/user.dart' as app_user;
+import 'package:samvaad/enum/user_state.dart' as userStateEnum; // Add this import and alias
+import 'package:samvaad/models/user.dart';
+import 'package:samvaad/resources/auth_methods.dart';
 import 'package:samvaad/utils/utilities.dart';
 
-class AuthMethods {
-  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class OnlineDotIndicator extends StatelessWidget {
+  final String uid;
+  final AuthMethods _authMethods = AuthMethods();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  GoogleSignIn _googleSignIn = GoogleSignIn();
-  static final CollectionReference _userCollection =
-      _firestore.collection(USERS_COLLECTION);
+  OnlineDotIndicator({required this.uid});
 
-  Future<User?> getCurrentUser() async {
-    User? currentUser = _auth.currentUser;
-    return currentUser;
-  }
-
-  Future<app_user.User?> getUserDetails() async {
-    try {
-      User? currentUser = await getCurrentUser();
-
-      if (currentUser != null) {
-        DocumentSnapshot documentSnapshot =
-            await _userCollection.doc(currentUser.uid).get();
-        return app_user.User.fromMap(
-            documentSnapshot.data() as Map<String, dynamic>);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print(e);
-      return null;
+  Color getColor(int state) {
+    switch (Utils.numToState(state)) {
+      case userStateEnum.UserState.Offline: // Use the prefix here
+        return Colors.red;
+      case userStateEnum.UserState.Online: // Use the prefix here
+        return Colors.green;
+      default:
+        return Colors.orange;
     }
   }
 
-  Future<app_user.User?> getUserDetailsById(String id) async {
-    try {
-      DocumentSnapshot documentSnapshot =
-          await _userCollection.doc(id).get();
-      return app_user.User.fromMap(
-          documentSnapshot.data() as Map<String, dynamic>);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: _authMethods.getUserStream(uid: uid),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data?.data == null) {
+            return Container(); // Return an empty container if no data
+          }
 
-  Future<User?> signIn() async {
-  try {
-    GoogleSignInAccount? _signInAccount = await _googleSignIn.signIn();
-    GoogleSignInAuthentication _signInAuthentication =
-        await _signInAccount!.authentication;
+          User _user = User.fromMap(snapshot.data?.data as Map<String, dynamic>);
 
-    OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: _signInAuthentication.accessToken,
-      idToken: _signInAuthentication.idToken,
+          return Container(
+            height: 10,
+            width: 10,
+            margin: EdgeInsets.only(right: 8, top: 8),
+            decoration: BoxDecoration(
+              color: getColor(_user.state),
+              shape: BoxShape.circle,
+            ),
+          );
+        },
+      ),
     );
-
-    UserCredential authResult = await _auth.signInWithCredential(credential);
-    return authResult.user!;
-  } catch (e) {
-    print("Auth methods error");
-    print(e);
-    return null;
   }
-}
-
-
-  Future<bool> authenticateUser(User user) async {
-    QuerySnapshot result = await _firestore
-        .collection(USERS_COLLECTION)
-        .where(EMAIL_FIELD, isEqualTo: user.email)
-        .get();
-
-    final List<QueryDocumentSnapshot> docs = result.docs;
-
-    // If user is registered then length of list > 0 or else less than 0
-    return docs.length == 0;
-  }
-
-  Future<void> addDataToDb(User currentUser) async {
-  String? email = currentUser.email;
-  String? displayName = currentUser.displayName;
-  String? photoURL = currentUser.photoURL;
-
-  if (email != null && displayName != null && photoURL != null) {
-    String username = Utils.getUsername(email);
-
-    app_user.User user = app_user.User(
-      uid: currentUser.uid,
-      email: email,
-      name: displayName,
-      profilePhoto: photoURL,
-      username: username,
-      status: '',
-      state: 0, password: '',
-    );
-
-    await _userCollection.doc(currentUser.uid).set(user.toMap());
-  } else {
-    print("User data is not complete.");
-  }
-}
-
-
-  Future<List<app_user.User>> fetchAllUsers(User currentUser) async {
-    List<app_user.User> userList = [];
-
-    QuerySnapshot querySnapshot =
-        await _firestore.collection(USERS_COLLECTION).get();
-    for (var document in querySnapshot.docs) {
-      if (document.id != currentUser.uid) {
-        userList.add(app_user.User.fromMap(document.data()
-            as Map<String, dynamic>)); // You can access data using the document.data() method
-      }
-    }
-    return userList;
-  }
-
-  Future<bool> signOut() async {
-    try {
-      await _googleSignIn.signOut();
-      await _auth.signOut();
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  void setUserState({required String userId, required UserState userState}) {
-    int stateNum = Utils.stateToNum(userState);
-
-    _userCollection.doc(userId).update({
-      "state": stateNum,
-    });
-  }
-
-  Stream<DocumentSnapshot> getUserStream({required String uid}) =>
-      _userCollection.doc(uid).snapshots();
-}
-
-mixin documents {
 }

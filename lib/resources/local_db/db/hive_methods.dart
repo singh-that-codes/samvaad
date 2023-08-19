@@ -1,3 +1,5 @@
+// ignore_for_file: override_on_non_overriding_member
+
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:samvaad/models/log.dart';
@@ -8,7 +10,7 @@ class HiveMethods implements LogInterface {
   late Box _box;
 
   @override
-  dynamic openDb(String dbName) {
+  dynamic openDb(dynamic dbName) {
     hiveBoxName = dbName;
     _box = Hive.box(hiveBoxName);
   }
